@@ -1,13 +1,10 @@
 import 'antd/dist/antd.css'
-import Home from "./components/Home";
-import Login from './components/Login'
+import HomePage from './pages/HomePage'
 
-function App() {
+function App () {
   return (
-    <div className="App">
-      <Login />
-    </div>
-  );
+    <HomePage/>
+  )
 }
 
-export default App;
+export default App

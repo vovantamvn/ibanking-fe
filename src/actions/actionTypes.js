@@ -1,0 +1,3 @@
+export const USER_GET_INFO = 'USER_GET_INFO'
+
+export const STUDENT_GET_INFO = 'STUDENT_GET_INFO'
