@@ -1,8 +1,10 @@
 import Payer from '../components/home/Payer'
 import Fee from '../components/home/Fee'
 import React from 'react'
+import studentApi from '../api/studentApi'
 
 function HomePage () {
+  studentApi.getStudentInfoById(1)
 
   return (
     <div>
