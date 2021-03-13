@@ -1,7 +1,7 @@
 import { USER_GET_INFO } from '../actions/actionTypes'
 
 const initialState = {
-  user: null,
+  user: null
 }
 
 const userReducer = (state = initialState, action) => {

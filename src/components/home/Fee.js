@@ -10,7 +10,7 @@ function Fee () {
 
   const onStudentCodeChange = (event) => {
     const studentCode = event.target.value
-    const regex = /^[0-9]{10}$/
+    const regex = /^[0-9]{9}$/
 
     if (regex.test(studentCode)) {
       const action = getStudentInfo(studentCode)
@@ -23,15 +23,16 @@ function Fee () {
       <Col span={8} push={8}>
         <h2>Thông tin sinh viên:</h2>
 
-        <Input name={'studentCode'} placeholder={'MSSV'}
-               onChange={onStudentCodeChange}/>
+        <Input
+          placeholder='MSSV'
+          onChange={onStudentCodeChange}
+        />
 
-        <Input name={'fullName'} placeholder={'HO TEN'} disabled={true}
-               value={fullName}/>
+        <Input disabled value={fullName} />
 
-        <Input disabled={true} value={cost}/>
+        <Input disabled value={cost} />
 
-        <Button type="primary" onClick={null}>
+        <Button type='primary' onClick={null}>
           Chuyển tiền
         </Button>
       </Col>
