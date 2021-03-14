@@ -1,8 +1,6 @@
-import { STUDENT_GET_INFO } from '../actions/actionTypes'
-// import studentApi from '../api/studentApi'
+import { STUDENT_GET_FEE, STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from '../actions/actionTypes'
 
 const initialState = {
-  studentCode: '',
   fullName: '',
   cost: ''
 }
@@ -10,15 +8,21 @@ const initialState = {
 const studentReducer = (state = initialState, action) => {
   switch (action.type) {
     case STUDENT_GET_INFO:
-      // const data = await studentApi.getStudentInfoById(action.payload)
-
-      // console.log(data)
-      console.log('LOL')
-
       return {
         ...state,
-        fullName: 'LOL',
-        cost: '1.000.000'
+        fullName: action.payload.fullName
+      }
+
+    case STUDENT_GET_FEE:
+      return {
+        ...state,
+        cost: action.payload.cost
+      }
+
+    case STUDENT_REFRESH_INFO:
+      return {
+        fullName: '',
+        cost: ''
       }
 
     default:

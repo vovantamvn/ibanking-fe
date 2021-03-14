@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input, Button, Row, Col } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStudentInfo } from '../../actions/student'
+import { fetchStudentInfo } from '../../actions/student'
 
 function Fee () {
   const fullName = useSelector(state => state.student.fullName)
@@ -13,7 +13,7 @@ function Fee () {
     const regex = /^[0-9]{9}$/
 
     if (regex.test(studentCode)) {
-      const action = getStudentInfo(studentCode)
+      const action = fetchStudentInfo(studentCode)
       dispatch(action)
     }
   }

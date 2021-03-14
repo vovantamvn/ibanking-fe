@@ -1,8 +1,12 @@
 import axiosClient from './axiosClient'
 
 const studentApi = {
-  getStudentInfoById: async (id) => {
-    return axiosClient.get(`/students/${id}`)
+  getStudentByStudentCode: (studentCode) => {
+    return axiosClient.get(`/students/${studentCode}`)
+  },
+
+  getFeeByStudentCode: studentCode => {
+    return axiosClient.get(`/students/${studentCode}/fees`)
   }
 }
 
