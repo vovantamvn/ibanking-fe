@@ -1,6 +1,7 @@
 import React from 'react'
-import { Col, Input, Row } from 'antd'
 import PropTypes from 'prop-types'
+import { Container, TextField, Typography, Grid } from '@material-ui/core'
+import { useStyle } from './style'
 
 Payer.propTypes = {
   username: PropTypes.string.isRequired,
@@ -8,17 +9,38 @@ Payer.propTypes = {
   email: PropTypes.string.isRequired
 }
 
-function Payer (props) {
+function Field ({ label, value }) {
+  const classes = useStyle()
+
   return (
-    <Row>
-      <Col span={8} push={8}>
-        <h2>Thông tin người gửi:</h2>
-        <Input disabled value={props.username} />
-        <Input disabled value={props.phone} />
-        <Input disabled value={props.email} />
-      </Col>
-    </Row>
+    <TextField
+      className={classes.input}
+      label={label}
+      variant='outlined'
+      defaultValue={value}
+      disabled
+    />
   )
 }
 
-export default Payer
+export default function Payer (props) {
+  return (
+    <Container>
+      <Typography variant='h3'>Thông tin người gửi:</Typography>
+
+      <Grid container alignContent='center' direction='column'>
+        <Grid item>
+          <Field label='Họ và tên' value={props.username} />
+        </Grid>
+
+        <Grid item>
+          <Field label='Số điện thoại' value={props.phone} />
+        </Grid>
+
+        <Grid item>
+          <Field label='Email' value={props.email} />
+        </Grid>
+      </Grid>
+    </Container>
+  )
+}

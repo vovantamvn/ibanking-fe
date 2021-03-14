@@ -1,10 +1,19 @@
-import 'antd/dist/antd.css'
+import { AppBar, CssBaseline, Toolbar, Typography } from '@material-ui/core'
 import HomePage from './pages/HomePage'
 
-function App () {
+export default function App () {
   return (
-    <HomePage />
+    <>
+      <CssBaseline />
+      <AppBar position='relative' color='primary'>
+        <Toolbar>
+          <Typography variant='h6'>IBanking</Typography>
+        </Toolbar>
+      </AppBar>
+
+      <main>
+        <HomePage />
+      </main>
+    </>
   )
 }
-
-export default App

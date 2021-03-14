@@ -1,17 +1,10 @@
-import { STUDENT_GET_FEE, STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from './actionTypes'
+import { STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from './actionTypes'
 import studentApi from '../api/studentApi'
 
 const getStudentInfo = user => {
   return {
     type: STUDENT_GET_INFO,
     payload: user
-  }
-}
-
-const getFeeOfStudent = fee => {
-  return {
-    type: STUDENT_GET_FEE,
-    payload: fee
   }
 }
 
@@ -27,8 +20,10 @@ export const fetchStudentInfo = (studentCode) => {
       const studentData = await studentApi.getStudentByStudentCode(studentCode)
       const feeData = await studentApi.getFeeByStudentCode(studentCode)
 
-      dispatch(getStudentInfo(studentData))
-      dispatch(getFeeOfStudent(feeData))
+      dispatch(getStudentInfo({
+        fullName: studentData.fullName,
+        cost: feeData.cost
+      }))
     } catch (error) {
       dispatch(refreshStudentInfo())
     }
