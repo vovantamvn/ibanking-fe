@@ -1,5 +1,6 @@
 import { AppBar, CssBaseline, Toolbar, Typography } from '@material-ui/core'
 import HomePage from './pages/HomePage'
+import LoginPage from './pages/LoginPage'
 
 export default function App () {
   return (
@@ -12,7 +13,7 @@ export default function App () {
       </AppBar>
 
       <main>
-        <HomePage />
+        <LoginPage />
       </main>
     </>
   )
