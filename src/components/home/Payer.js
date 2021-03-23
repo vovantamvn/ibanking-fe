@@ -4,7 +4,7 @@ import { Container, TextField, Typography, Grid } from '@material-ui/core'
 import { useStyle } from './style'
 
 Payer.propTypes = {
-  username: PropTypes.string.isRequired,
+  fullName: PropTypes.string.isRequired,
   phone: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired
 }
@@ -26,11 +26,11 @@ function Field ({ label, value }) {
 export default function Payer (props) {
   return (
     <Container>
-      <Typography variant='h3'>Thông tin người gửi:</Typography>
+      <Typography variant='h3'>Thông tin người gửi</Typography>
 
       <Grid container alignContent='center' direction='column'>
         <Grid item>
-          <Field label='Họ và tên' value={props.username} />
+          <Field label='Họ và tên' value={props.fullName} />
         </Grid>
 
         <Grid item>

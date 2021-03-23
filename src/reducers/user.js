@@ -1,7 +1,9 @@
 import { USER_GET_INFO } from '../actions/actionTypes'
 
 const initialState = {
-  user: null
+  fullName: 'VO VAN TAM',
+  email: 'vovantam.dev@gmmail.com',
+  phone: '0859292354'
 }
 
 const userReducer = (state = initialState, action) => {

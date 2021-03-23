@@ -22,4 +22,8 @@ axiosClient.interceptors.response.use(async (response) => {
   throw error
 })
 
+export const setAuthHeader = (token) => {
+  axiosClient.defaults.headers.common.Authorization = `Bearer ${token}`
+}
+
 export default axiosClient

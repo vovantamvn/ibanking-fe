@@ -1,6 +1,9 @@
 import { Button, Container, Grid, TextField, Typography } from '@material-ui/core'
 import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import userApi from '../api/userApi'
+import { setAuthHeader } from '../api/axiosClient'
+import PropTypes from 'prop-types'
 
 const useStyle = makeStyles({
   input: {
@@ -24,23 +27,46 @@ function Field ({ label, value, name, type, onChange }) {
   )
 }
 
-export default function LoginPage () {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+function ErrorField ({ error }) {
+  if (typeof error === 'string' && error !== '') {
+    return <Typography variant='subtitle1' color='error'>{error}</Typography>
+  }
+  return null
+}
+
+LoginPage.propTypes = {
+  loginSuccess: PropTypes.func.isRequired
+}
+
+export default function LoginPage (props) {
+  const initialData = {
+    username: '',
+    password: ''
+  }
+  const [data, setData] = useState(initialData)
+  const [error, setError] = useState('')
 
   const handleChange = (event) => {
     const { name, value } = event.target
-
-    if (name === 'email') {
-      setEmail(value)
-    } else if (name === 'password') {
-      setPassword(value)
-    }
+    setData({
+      ...data,
+      [name]: value
+    })
   }
 
-  const handleSubmit = (event) => {
-    console.log(email)
-    console.log(password)
+  const handleSubmit = async (event) => {
+    const { username, password } = data
+
+    try {
+      const token = await userApi.getToken(username, password)
+
+      setAuthHeader(token)
+      localStorage.setItem('token', token)
+
+      props.loginSuccess()
+    } catch (e) {
+      setError('Username hoặc mật khâủ sai!')
+    }
   }
 
   return (
@@ -49,9 +75,9 @@ export default function LoginPage () {
       <Grid container direction='column'>
         <Grid item>
           <Field
-            label='Email *'
-            name='email'
-            value={email}
+            label='Username *'
+            name='username'
+            value={data.username}
             type='text'
             onChange={handleChange}
           />
@@ -61,11 +87,13 @@ export default function LoginPage () {
           <Field
             label='Mật khẩu *'
             name='password'
-            value={password}
+            value={data.password}
             type='password'
             onChange={handleChange}
           />
         </Grid>
+
+        <ErrorField error={error} />
 
         <Grid item>
           <Button

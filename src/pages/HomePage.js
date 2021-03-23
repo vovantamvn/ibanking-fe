@@ -1,12 +1,21 @@
+import { useSelector } from 'react-redux'
+import { Container } from '@material-ui/core'
 import Payer from '../components/home/Payer'
 import Fee from '../components/home/Fee'
-import { Container } from '@material-ui/core'
 
 export default function HomePage () {
+  const { fullName, email, phone } = useSelector(state => state.user)
+
   return (
     <Container maxWidth='sm'>
-      <Payer username='sv011' phone='0859292354' email='email' />
+      <Payer
+        fullName={fullName}
+        phone={phone}
+        email={email}
+      />
+
       <Fee />
+
     </Container>
   )
 }
