@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchStudentInfo } from '../../actions/student'
+import { fetchStudentInfo, refreshStudentInfo } from '../../actions/student'
 import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import { Container, Grid, TextField, Typography } from '@material-ui/core'
+import ConfirmDialog from './ConfirmDialog'
 import { useStyle } from './style'
 
 function Filed ({ label, value }) {
@@ -46,14 +42,20 @@ function MyField ({ label, error, onChange }) {
   )
 }
 
+const styleMarginTop = {
+  marginTop: '10px',
+}
+
 export default function Fee () {
   const dispatch = useDispatch()
-
-  const [open, setOpen] = useState(false)
 
   const fullName = useSelector(state => state.student.fullName)
   const cost = useSelector(state => state.student.cost)
   const error = useSelector(state => state.student.error)
+
+  const balance = useSelector(state => state.user.balance)
+
+  const [amount, setAmount] = useState(0)
 
   const onStudentCodeChange = (event) => {
     const studentCode = event.target.value
@@ -62,8 +64,17 @@ export default function Fee () {
     if (regex.test(studentCode)) {
       const action = fetchStudentInfo(studentCode)
       dispatch(action)
+    } else {
+      dispatch(refreshStudentInfo())
     }
   }
+
+  const handleAmount = (event) => {
+    const value = event.target.value
+    setAmount(value)
+  }
+
+  const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -76,24 +87,46 @@ export default function Fee () {
   return (
     <Container>
       <Typography variant='h3'>Thông tin học phí</Typography>
-
       <Grid container direction='column' align='center'>
         <Grid item>
-          <MyField label='Mã số sinh viên' error={error} onChange={onStudentCodeChange} />
+          <MyField
+            label='Mã số sinh viên'
+            error={error}
+            onChange={onStudentCodeChange}/>
         </Grid>
-
         <Grid item>
-          <Filed label='Họ và tên' value={fullName} />
+          <Filed label='Họ và tên' value={fullName}/>
         </Grid>
-
         <Grid item>
-          <Filed label='Số tiền học phí' value={cost} />
+          <Filed label='Số tiền học phí' value={cost}/>
         </Grid>
+      </Grid>
 
+      <Typography variant='h3'>Thông tin thanh toán</Typography>
+      <Grid container direction='column' alignItems='center'>
+        <Grid item>
+          <TextField
+            style={styleMarginTop}
+            variant={'outlined'}
+            label='Số dư khả dụng'
+            value={balance}
+            disabled
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            style={styleMarginTop}
+            variant='outlined'
+            type='number'
+            label='Số tiền nộp'
+            value={amount}
+            onChange={handleAmount}
+          />
+        </Grid>
         <Grid item>
           <Button
             color='primary'
-            style={{ marginTop: '10px' }}
+            style={styleMarginTop}
             onClick={handleClickOpen}
             variant='outlined'
           >Chuyển tiền
@@ -101,29 +134,11 @@ export default function Fee () {
         </Grid>
       </Grid>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-      >
-        <DialogTitle id='alert-dialog-title'>Nhập mã OTP</DialogTitle>
-
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            Hãy nhập mã OTP đã được gửi về địa chỉ email của bạn!
-          </DialogContentText>
-
-          <TextField />
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose} color='primary'>
-            Đóng
-          </Button>
-          <Button onClick={handleClose} color='primary' autoFocus>
-            Xác nhận
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ConfirmDialog
+        amount={amount}
+        balance={balance}
+        handleClose={handleClose}
+        open={open}/>
     </Container>
   )
 }

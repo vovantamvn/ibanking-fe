@@ -1,13 +1,6 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { Container, TextField, Typography, Grid } from '@material-ui/core'
 import { useStyle } from './style'
-
-Payer.propTypes = {
-  fullName: PropTypes.string.isRequired,
-  phone: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired
-}
 
 function Field ({ label, value }) {
   const classes = useStyle()
@@ -17,28 +10,30 @@ function Field ({ label, value }) {
       className={classes.input}
       label={label}
       variant='outlined'
-      defaultValue={value}
+      value={value}
       disabled
     />
   )
 }
 
-export default function Payer (props) {
+export default function Payer () {
+  const { fullName, email, phone } = useSelector(state => state.user)
+
   return (
     <Container>
       <Typography variant='h3'>Thông tin người gửi</Typography>
 
       <Grid container alignContent='center' direction='column'>
         <Grid item>
-          <Field label='Họ và tên' value={props.fullName} />
+          <Field label='Họ và tên' value={fullName} />
         </Grid>
 
         <Grid item>
-          <Field label='Số điện thoại' value={props.phone} />
+          <Field label='Số điện thoại' value={phone} />
         </Grid>
 
         <Grid item>
-          <Field label='Email' value={props.email} />
+          <Field label='Email' value={email} />
         </Grid>
       </Grid>
     </Container>

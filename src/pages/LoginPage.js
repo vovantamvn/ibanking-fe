@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles'
 import userApi from '../api/userApi'
 import { setAuthHeader } from '../api/axiosClient'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { setUsername } from '../actions/user'
 
 const useStyle = makeStyles({
   input: {
@@ -46,6 +48,8 @@ export default function LoginPage (props) {
   const [data, setData] = useState(initialData)
   const [error, setError] = useState('')
 
+  const dispatch = useDispatch()
+
   const handleChange = (event) => {
     const { name, value } = event.target
     setData({
@@ -61,7 +65,7 @@ export default function LoginPage (props) {
       const token = await userApi.getToken(username, password)
 
       setAuthHeader(token)
-      localStorage.setItem('token', token)
+      dispatch(setUsername(username))
 
       props.loginSuccess()
     } catch (e) {

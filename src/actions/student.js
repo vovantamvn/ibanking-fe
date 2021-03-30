@@ -8,7 +8,7 @@ const getStudentInfo = user => {
   }
 }
 
-const refreshStudentInfo = () => {
+export const refreshStudentInfo = () => {
   return {
     type: STUDENT_REFRESH_INFO
   }
@@ -22,7 +22,8 @@ export const fetchStudentInfo = (studentCode) => {
 
       dispatch(getStudentInfo({
         fullName: studentData.fullName,
-        cost: feeData.cost
+        cost: feeData.cost,
+        studentCode: studentCode
       }))
     } catch (error) {
       dispatch(refreshStudentInfo())

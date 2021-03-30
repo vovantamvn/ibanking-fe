@@ -1,20 +1,10 @@
 import { AppBar, CssBaseline, Toolbar, Typography } from '@material-ui/core'
 import { useState } from 'react'
-import { setAuthHeader } from './api/axiosClient'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 
 export default function App () {
-  const [isLogin, setLogin] = useState(() => {
-    const token = localStorage.getItem('token')
-
-    if (token) {
-      setAuthHeader(token)
-      return true
-    } else {
-      return false
-    }
-  })
+  const [isLogin, setLogin] = useState(false)
 
   const loginSuccess = () => {
     setLogin(true)

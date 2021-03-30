@@ -1,6 +1,7 @@
 import { STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from '../actions/actionTypes'
 
 const initialState = {
+  studentCode: null,
   fullName: '',
   cost: '',
   error: ''
@@ -16,9 +17,10 @@ const studentReducer = (state = initialState, action) => {
 
     case STUDENT_REFRESH_INFO:
       return {
+        studentCode: null,
         fullName: '',
         cost: '',
-        error: 'there is a error'
+        error: 'Mã số sinh viên không đúng'
       }
 
     default:
