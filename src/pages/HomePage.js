@@ -11,12 +11,12 @@ export default function HomePage () {
 
   useEffect(() => {
     dispatch(fetchUserInfo(username))
-  }, [])
+  })
 
   return (
     <Container maxWidth='sm'>
-      <Payer />
-      <Fee />
+      <Payer/>
+      <Fee/>
     </Container>
   )
 }

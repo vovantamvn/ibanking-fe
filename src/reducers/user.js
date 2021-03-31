@@ -4,8 +4,8 @@ const initialState = {
   fullName: '',
   email: '',
   phone: '',
-  username: '',
-  balance: 0
+  username: 'admin',
+  balance: '0'
 }
 
 const userReducer = (state = initialState, action) => {

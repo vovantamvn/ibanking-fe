@@ -3,7 +3,7 @@ import { STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from '../actions/actionTypes'
 const initialState = {
   studentCode: null,
   fullName: '',
-  cost: '',
+  cost: '0',
   error: ''
 }
 
