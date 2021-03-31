@@ -1,4 +1,8 @@
-import { STUDENT_GET_INFO, STUDENT_REFRESH_INFO } from './actionTypes'
+import {
+  STUDENT_FETCH_ERROR,
+  STUDENT_GET_INFO,
+  STUDENT_REFRESH_INFO,
+} from './actionTypes'
 import studentApi from '../api/studentApi'
 
 const getStudentInfo = user => {
@@ -14,6 +18,12 @@ export const refreshStudentInfo = () => {
   }
 }
 
+export const fetchStudentError = () => {
+  return {
+    type: STUDENT_FETCH_ERROR
+  }
+}
+
 export const fetchStudentInfo = (studentCode) => {
   return async (dispatch) => {
     try {
@@ -26,7 +36,7 @@ export const fetchStudentInfo = (studentCode) => {
         studentCode: studentCode
       }))
     } catch (error) {
-      dispatch(refreshStudentInfo())
+      dispatch(fetchStudentError())
     }
   }
 }

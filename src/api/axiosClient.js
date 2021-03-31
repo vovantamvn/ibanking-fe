@@ -4,9 +4,8 @@ import queryString from 'query-string'
 const axiosClient = axios.create({
   headers: {
     'content-type': 'application/json',
-    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYxNzMzMTY3OSwiaWF0IjoxNjE2ODk5Njc5fQ._F40v6BlJShLlA-PzGjN5TSvQ5WwaOgxOVPIrVo3AX5g54MjnvTLexpOA7oiYFp7UOg5TZRcdgskAx9L5odBhw'
   },
-  paramsSerializer: params => queryString.stringify(params)
+  paramsSerializer: params => queryString.stringify(params),
 })
 
 axiosClient.interceptors.request.use(async (config) => {

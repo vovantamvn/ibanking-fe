@@ -25,15 +25,15 @@ export default function Payer () {
 
       <Grid container alignContent='center' direction='column'>
         <Grid item>
-          <Field label='Họ và tên' value={fullName} />
+          <Field label='Họ và tên' value={fullName}/>
         </Grid>
 
         <Grid item>
-          <Field label='Số điện thoại' value={phone} />
+          <Field label='Số điện thoại' value={phone}/>
         </Grid>
 
         <Grid item>
-          <Field label='Email' value={email} />
+          <Field label='Email' value={email}/>
         </Grid>
       </Grid>
     </Container>

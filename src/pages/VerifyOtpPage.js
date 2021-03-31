@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
   Button,
   Container,
@@ -7,7 +7,6 @@ import {
   Typography,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
 import userApi from '../api/userApi'
 
 const useStyle = makeStyles({
@@ -15,11 +14,6 @@ const useStyle = makeStyles({
     marginTop: '10px',
   },
 })
-
-VerityOtpPage.propTypes = {
-  billId: PropTypes.number.isRequired,
-  backToHome: PropTypes.func.isRequired,
-}
 
 const rootStatus = {
   NO_THING: 'NO_THING',
@@ -30,17 +24,7 @@ const rootStatus = {
 
 export default function VerityOtpPage (props) {
   const classes = useStyle()
-
-  useEffect(() => {
-    const { studentCode, amount } = props
-    // userApi.submitBanking(studentCode, amount).
-    //   then(res => {
-    //
-    //   }).catch(error => {
-    //
-    // })
-    console.log('call api to submit')
-  }, [])
+  const { billId, backToHome } = props
 
   const [isDisable, setDisable] = useState(true)
   const [otp, setOtp] = useState('')
@@ -61,7 +45,7 @@ export default function VerityOtpPage (props) {
   const onClick = () => {
     setStatus(rootStatus.PENDING)
 
-    userApi.verifyOtp(props.billId, otp).then(() => {
+    userApi.verifyOtp(billId, otp).then(() => {
       setText('Giao dịch thành công!')
       setStatus(rootStatus.SUCCESS)
     }).catch((error) => {
@@ -92,6 +76,12 @@ export default function VerityOtpPage (props) {
             onClick={() => setStatus(rootStatus.NO_THING)}>
             Trở lại
           </Button>
+          <Button
+            color={'primary'}
+            variant={'outlined'}
+            onClick={backToHome}>
+            Home
+          </Button>
         </Grid>
       </Grid>
     )
@@ -110,7 +100,7 @@ export default function VerityOtpPage (props) {
         <Grid>
           <Button
             variant={'outlined'}
-            onClick={props.backToHome}>
+            onClick={backToHome}>
             Home
           </Button>
         </Grid>

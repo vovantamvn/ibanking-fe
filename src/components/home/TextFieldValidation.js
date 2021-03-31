@@ -5,6 +5,9 @@ import Errors from '../../utils/Errors'
 
 const initialValue = ''
 const initialError = Errors.emptyError
+const style = {
+  marginTop: '10px',
+}
 
 TextFieldValidation.propTypes = {
   label: PropTypes.string,
@@ -19,7 +22,7 @@ TextFieldValidation.defaultProps = {
 }
 
 export default function TextFieldValidation (props) {
-  const { label, externalError, validation, onChange } = props
+  const { label, externalError, validation, onChange, disabled } = props
 
   const [value, setValue] = useState(initialValue)
   const [error, setError] = useState(initialError)
@@ -61,6 +64,8 @@ export default function TextFieldValidation (props) {
   return (
     <Container>
       <TextField
+        disabled={disabled}
+        style={style}
         label={label}
         value={value}
         variant='outlined'

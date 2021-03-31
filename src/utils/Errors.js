@@ -8,9 +8,10 @@ const Errors = {
 
   cash: {
     invalidFormat: 'Số tiền không đúng định dạng',
-    mustBeLessThanBalance: 'Không được lớn hơn số dư khả dụng',
-    mustBeLessThanCost: 'Không được lớn hơn số tiền học phí',
-    mustBeDivisibleBy1000: 'Phải là bội số của 1000 đồng'
+    mustBeLessThanBalance: 'Không được lớn hơn số dư',
+    mustBeLessThanCost: 'Không được lớn hơn học phí',
+    mustBeDivisibleBy1000: 'Phải là bội số của 1000 đồng',
+    mustBeChoiceStudent: 'Hãy nhập mã số sinh viên trước'
   }
 }
 

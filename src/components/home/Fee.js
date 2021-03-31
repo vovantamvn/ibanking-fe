@@ -7,24 +7,19 @@ import {
   Button,
 } from '@material-ui/core'
 
-import ConfirmDialog from './ConfirmDialog'
 import TextFieldValidation from './TextFieldValidation'
 import TextFieldDisable from './TextFieldDisable'
 
 import { fetchStudentInfo, refreshStudentInfo } from '../../actions/student'
 import Errors from '../../utils/Errors'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogActions from '@material-ui/core/DialogActions'
+import Dialog from '@material-ui/core/Dialog'
 
 const styleMarginTop = {
   marginTop: '10px',
-}
-
-const validateStudentCode = (value) => {
-  const regex = /^[0-9]{9}$/
-
-  if (!regex.test(value)) {
-    return Errors.student.studentCodeMustHave9Numbers
-  }
-  return Errors.emptyError
 }
 
 const validateAmount = (amount, balance, cost) => {
@@ -44,48 +39,38 @@ const validateAmount = (amount, balance, cost) => {
   return Errors.emptyError
 }
 
-const setStateError = (setError, key, value) => {
-  setError(prev => {
-    prev[key] = value
-    return prev
-  })
-}
-
 const initialAmount = '0'
-const initialError = {
-  studentCode: true,
-  amount: true,
-}
 
-export default function Fee () {
+export default function Fee (props) {
   const dispatch = useDispatch()
 
+  const studentCode = useSelector(state => state.student.studentCode)
   const fullName = useSelector(state => state.student.fullName)
   const cost = useSelector(state => state.student.cost)
   const balance = useSelector(state => state.user.balance)
   const error = useSelector(state => state.student.error)
 
   const [amount, setAmount] = useState(initialAmount)
-  const [isError, setError] = useState(initialError)
   const [open, setOpen] = useState(false)
+
+  const [isLockCode, setLockCode] = useState(false)
+  const [isError, setError] = useState(true)
 
   const onChangeStudentCode = (result) => {
     if (result.data) {
       dispatch(fetchStudentInfo(result.data))
-      setStateError(setError, 'studentCode', false)
     } else {
       dispatch(refreshStudentInfo())
-      setStateError(setError, 'studentCode', true)
     }
   }
 
   const onChangeAmount = (result) => {
     if (result.data) {
       setAmount(result.data)
-      setStateError(setError, 'amount', false)
+      setError(false)
     } else {
       setAmount(initialAmount)
-      setStateError(setError, 'amount', true)
+      setError(true)
     }
   }
 
@@ -97,8 +82,6 @@ export default function Fee () {
     setOpen(false)
   }
 
-  const isDisable = isError.amount || isError.studentCode
-
   return (
     <Container>
       <Typography variant='h3'>Thông tin học phí</Typography>
@@ -106,18 +89,26 @@ export default function Fee () {
       <Grid container direction='column' alignItems='center'>
         <Grid item>
           <TextFieldValidation
+            disabled={isLockCode}
             label={'Mã số sinh viên'}
             externalError={error}
-            validation={validateStudentCode}
             onChange={onChangeStudentCode}
           />
         </Grid>
-
         <Grid item>
           <TextFieldDisable label='Họ và tên' value={fullName}/>
         </Grid>
         <Grid item>
           <TextFieldDisable label='Số tiền học phí' value={cost}/>
+        </Grid>
+        <Grid item>
+          <Button
+            style={styleMarginTop}
+            variant={'outlined'}
+            onClick={() => setLockCode(true)}
+            disabled={error !== Errors.emptyError}>
+            Xác nhận
+          </Button>
         </Grid>
       </Grid>
 
@@ -132,6 +123,7 @@ export default function Fee () {
           <TextFieldValidation
             label={'Số tiền nộp'}
             onChange={onChangeAmount}
+            disabled={!isLockCode}
             validation={(amount) => validateAmount(amount, balance, cost)}/>
         </Grid>
 
@@ -140,18 +132,32 @@ export default function Fee () {
             color='primary'
             style={styleMarginTop}
             onClick={handleClickOpen}
-            disabled={isDisable}
+            disabled={isError}
             variant='outlined'>
             Chuyển tiền
           </Button>
         </Grid>
       </Grid>
 
-      <ConfirmDialog
-        open={open}
-        amount={amount}
-        handleClose={handleClose}
-        />
+      <Dialog open={open}>
+        <DialogTitle>Xác nhận</DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>
+            {`Bạn xác nhận chuyển ${amount} vào sinh viên có mã số ${studentCode}`}
+          </DialogContentText>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleClose} color='primary'>
+            Đóng
+          </Button>
+          <Button onClick={() => props.onSubmit(studentCode, amount)}
+                  color='primary' autoFocus>
+            Xác nhận
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   )
 }
